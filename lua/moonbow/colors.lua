@@ -79,4 +79,50 @@ M.colors = {
 	gray = "#928374",
 }
 
+M.get_base_colors = function()
+	local p = M.colors
+
+	local colors = {
+		bg = p.bg,
+		fg = p.fg,
+		bg0 = p.dark0_hard,
+		bg1 = p.dark1,
+		bg2 = p.dark2,
+		bg3 = p.dark3,
+		bg4 = p.dark4,
+		fg0 = p.light0,
+		fg1 = p.light1,
+		fg2 = p.light2,
+		fg3 = p.light3,
+		fg4 = p.light4,
+		red = p.bright_red,
+		green = p.bright_green,
+		yellow = p.bright_yellow,
+		blue = p.bright_blue,
+		purple = p.bright_purple,
+		aqua = p.bright_aqua,
+		orange = p.bright_orange,
+		neutral_red = p.neutral_red,
+		neutral_green = p.neutral_green,
+		neutral_yellow = p.neutral_yellow,
+		neutral_blue = p.neutral_blue,
+		neutral_purple = p.neutral_purple,
+		neutral_aqua = p.neutral_aqua,
+		gray = p.gray,
+		accent = p.accent,
+		func = p.func,
+		entity = p.entity,
+		string = p.string,
+		regexp = p.regexp,
+		markup = p.markup,
+		keyword = p.keyword,
+		special = p.special,
+		comment = p.comment,
+		constant = p.constant,
+		operator = p.operator,
+		tag = p.tag,
+		error = p.error,
+	}
+	return colors
+end
 return M
