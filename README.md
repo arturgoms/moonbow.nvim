@@ -2,7 +2,7 @@
 
 Moonbow is a theme for nvim inspired by Gruvbox and Ayu dark
 
-![demo1](https://github.com/arturgoms/nvim/blob/main/images/image_1.png)
+![demo1](https://github.com/arturgoms/moonbow.nvim/blob/master/images/image_1.png)
 
 # Installing
 
