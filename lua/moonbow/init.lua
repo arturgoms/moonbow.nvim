@@ -52,7 +52,7 @@ M.load = function()
 		vim.cmd("moonbow.nvim: colors cleared")
 	end
 
-	vim.g.colors_name = "moonbox"
+	vim.g.colors_name = "moonbow"
 	vim.o.termguicolors = true
 
 	set_terminal_colors()
