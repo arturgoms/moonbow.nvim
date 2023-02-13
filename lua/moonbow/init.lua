@@ -49,7 +49,7 @@ M.load = function()
 	end
 
 	if vim.g.colors_name then
-		vim.cmd("moonbow.nvim: colors cleared")
+		vim.notify_once("moonbow.nvim: colors cleared")
 	end
 
 	vim.g.colors_name = "moonbow"
