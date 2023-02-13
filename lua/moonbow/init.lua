@@ -44,12 +44,12 @@ end
 
 M.load = function()
 	if vim.version().minor < 7 then
-		vim.notify_once("moonbox.nvim: you must use neovim 0.7 or higher")
+		vim.notify_once("moonbow.nvim: you must use neovim 0.7 or higher")
 		return
 	end
 
 	if vim.g.colors_name then
-		vim.cmd("moonbox.nvim: colors cleared")
+		vim.cmd("moonbow.nvim: colors cleared")
 	end
 
 	vim.g.colors_name = "moonbox"
