@@ -23,3 +23,7 @@ and add this to your Lazy config
 ```
 
 See ![my config](https://github.com/arturgoms/nvim) if you want a config using this theme.
+
+Credits to:
+- ![Gruvbox](https://github.com/ellisonleao/gruvbox.nvim)
+- ![Ayu](https://github.com/Shatur/neovim-ayu)
