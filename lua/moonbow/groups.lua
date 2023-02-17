@@ -786,6 +786,12 @@ local groups = {
 
 	-- Session
 	SessionName = { fg = colors.string, bg = colors.bg },
+
+	-- Whichkey
+	WhichKeyFloat = { fg = colors.fg, bg = colors.bg },
+
+	-- Lazy
+	LazyNormal = { fg = colors.fg, bg = colors.bg },
 }
 
 return groups
