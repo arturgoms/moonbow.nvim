@@ -17,20 +17,22 @@ Using `lazy`
 ```lua
 { "arturgoms/moonbow.nvim" }
 ```
-and add this to your Lazy config 
+
+and add this to your Lazy config
+
 ```lua
  install = { colorscheme = { "moonbow" } }
 ```
 
 # Lualine support
 
-Just add 
+Just add
+
 ```lua
  options = { theme = "moonbow" } }
 ```
-to the setup of lualine
 
-Still pending merge: https://github.com/nvim-lualine/lualine.nvim/pull/966
+to the setup of lualine
 
 <p>
 <img width='700' src='https://user-images.githubusercontent.com/6445354/218488141-863f4c3b-06a8-49be-83ed-6dc3f3221702.png'/>
@@ -40,8 +42,10 @@ Still pending merge: https://github.com/nvim-lualine/lualine.nvim/pull/966
 </p>
 
 # Config example
+
 See ![my config](https://github.com/arturgoms/nvim) if you want a config using this theme.
 
 Credits to:
+
 - ![Gruvbox](https://github.com/ellisonleao/gruvbox.nvim)
 - ![Ayu](https://github.com/Shatur/neovim-ayu)
