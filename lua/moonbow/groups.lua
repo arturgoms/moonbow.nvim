@@ -792,6 +792,10 @@ local groups = {
 
 	-- Lazy
 	LazyNormal = { fg = colors.fg, bg = colors.bg },
+
+	-- nvim 0.10 overrides
+	WinSeparator = { fg = colors.bg3, bg = colors.bg0 },
+
 }
 
 return groups
