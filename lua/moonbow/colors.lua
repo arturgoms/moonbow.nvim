@@ -129,4 +129,44 @@ M.get_base_colors = function()
 	}
 	return colors
 end
+
+--- Resolve a background style into a concrete color or "NONE".
+---@param mode string "auto" | "transparent" | "dark" | "normal"
+---@param transparent boolean
+---@param normal string
+---@param dark string
+---@return string
+local function resolve_bg(mode, transparent, normal, dark)
+	if mode == "transparent" then
+		return "NONE"
+	elseif mode == "dark" then
+		return dark
+	elseif mode == "auto" then
+		return transparent and "NONE" or normal
+	end
+	return normal
+end
+
+--- Compute the semantic background colors from the user configuration.
+---@param colors table result of `get_base_colors()`
+---@param config table the moonbow config
+---@return table
+function M.get_backgrounds(colors, config)
+	local transparent = config.transparent and true or false
+	local styles = config.styles or {}
+
+	return {
+		--- Main editor background (`Normal`, `NormalNC`, ...).
+		editor = transparent and "NONE" or colors.bg0,
+		--- Gutter background (`SignColumn`, `FoldColumn`, signs).
+		gutter = transparent and "NONE" or colors.bg1,
+		--- Sidebar background (`NormalSB`, `NvimTreeNormal`, ...).
+		sidebar = resolve_bg(styles.sidebars, transparent, colors.bg0, colors.bg1),
+		--- Floating window background (`NormalFloat`, `TelescopeNormal`, ...).
+		float = resolve_bg(styles.floats, transparent, colors.bg0, colors.bg1),
+		--- Popup menu background (`Pmenu`).
+		popup = resolve_bg(styles.popups, transparent, colors.bg0, colors.bg1),
+	}
+end
+
 return M

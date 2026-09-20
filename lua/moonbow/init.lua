@@ -39,7 +39,15 @@ local M = {}
 --- Apply user settings.
 ---@param values table
 function M.setup(values)
-	setmetatable(config, { __index = vim.tbl_extend("force", config.defaults, values) })
+	values = vim.deepcopy(values or {})
+
+	-- `transparent_mode` is a deprecated alias for `transparent`
+	if values.transparent_mode ~= nil and values.transparent == nil then
+		values.transparent = values.transparent_mode
+	end
+	values.transparent_mode = nil
+
+	setmetatable(config, { __index = vim.tbl_deep_extend("force", {}, config.defaults, values) })
 end
 
 M.load = function()
