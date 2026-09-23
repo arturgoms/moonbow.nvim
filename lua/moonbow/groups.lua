@@ -1,5 +1,10 @@
-local colors = require("moonbow.colors").get_base_colors()
 local config = require("moonbow.config")
+local colors_module = require("moonbow.colors")
+local colors = colors_module.get_base_colors()
+local bgs = colors_module.get_backgrounds(colors, config)
+
+local statusline_transparent = config.styles.statusline == "transparent"
+local tabline_transparent = config.styles.tabline == "transparent"
 
 local groups = {
 	-- Base groups
@@ -28,20 +33,20 @@ local groups = {
 	MoonbowAquaBold = { fg = colors.aqua, bold = config.bold },
 	MoonbowOrange = { fg = colors.orange },
 	MoonbowOrangeBold = { fg = colors.orange, bold = config.bold },
-	MoonbowRedSign = config.transparent_mode and { fg = colors.red, reverse = config.invert_signs }
-		or { fg = colors.red, bg = colors.bg1, reverse = config.invert_signs },
-	MoonbowGreenSign = config.transparent_mode and { fg = colors.green, reverse = config.invert_signs }
-		or { fg = colors.green, bg = colors.bg1, reverse = config.invert_signs },
-	MoonbowYellowSign = config.transparent_mode and { fg = colors.yellow, reverse = config.invert_signs }
-		or { fg = colors.yellow, bg = colors.bg1, reverse = config.invert_signs },
-	MoonbowBlueSign = config.transparent_mode and { fg = colors.blue, reverse = config.invert_signs }
-		or { fg = colors.blue, bg = colors.bg1, reverse = config.invert_signs },
-	MoonbowPurpleSign = config.transparent_mode and { fg = colors.purple, reverse = config.invert_signs }
-		or { fg = colors.purple, bg = colors.bg1, reverse = config.invert_signs },
-	MoonbowAquaSign = config.transparent_mode and { fg = colors.aqua, reverse = config.invert_signs }
-		or { fg = colors.aqua, bg = colors.bg1, reverse = config.invert_signs },
-	MoonbowOrangeSign = config.transparent_mode and { fg = colors.orange, reverse = config.invert_signs }
-		or { fg = colors.orange, bg = colors.bg1, reverse = config.invert_signs },
+	MoonbowRedSign = bgs.gutter == "NONE" and { fg = colors.red, reverse = config.invert_signs }
+		or { fg = colors.red, bg = bgs.gutter, reverse = config.invert_signs },
+	MoonbowGreenSign = bgs.gutter == "NONE" and { fg = colors.green, reverse = config.invert_signs }
+		or { fg = colors.green, bg = bgs.gutter, reverse = config.invert_signs },
+	MoonbowYellowSign = bgs.gutter == "NONE" and { fg = colors.yellow, reverse = config.invert_signs }
+		or { fg = colors.yellow, bg = bgs.gutter, reverse = config.invert_signs },
+	MoonbowBlueSign = bgs.gutter == "NONE" and { fg = colors.blue, reverse = config.invert_signs }
+		or { fg = colors.blue, bg = bgs.gutter, reverse = config.invert_signs },
+	MoonbowPurpleSign = bgs.gutter == "NONE" and { fg = colors.purple, reverse = config.invert_signs }
+		or { fg = colors.purple, bg = bgs.gutter, reverse = config.invert_signs },
+	MoonbowAquaSign = bgs.gutter == "NONE" and { fg = colors.aqua, reverse = config.invert_signs }
+		or { fg = colors.aqua, bg = bgs.gutter, reverse = config.invert_signs },
+	MoonbowOrangeSign = bgs.gutter == "NONE" and { fg = colors.orange, reverse = config.invert_signs }
+		or { fg = colors.orange, bg = bgs.gutter, reverse = config.invert_signs },
 	MoonbowRedUnderline = { undercurl = config.undercurl, sp = colors.red },
 	MoonbowGreenUnderline = { undercurl = config.undercurl, sp = colors.green },
 	MoonbowYellowUnderline = { undercurl = config.undercurl, sp = colors.yellow },
@@ -49,13 +54,21 @@ local groups = {
 	MoonbowPurpleUnderline = { undercurl = config.undercurl, sp = colors.purple },
 	MoonbowAquaUnderline = { undercurl = config.undercurl, sp = colors.aqua },
 	MoonbowOrangeUnderline = { undercurl = config.undercurl, sp = colors.orange },
-	Normal = config.transparent_mode and { fg = colors.fg1, bg = nil } or { fg = colors.fg1, bg = colors.bg0 },
-	NormalNC = config.dim_inactive and { fg = colors.fg0, bg = colors.bg1 } or { link = "Normal" },
-	NotifyBackground = { bg = colors.bg0 },
+	Normal = { fg = colors.fg1, bg = bgs.editor },
+	NormalFloat = { fg = colors.fg1, bg = bgs.float },
+	NormalSB = { fg = colors.fg1, bg = bgs.sidebar },
+	NormalNC = config.dim_inactive and { fg = colors.fg0, bg = bgs.editor == "NONE" and "NONE" or colors.bg1 }
+		or { link = "Normal" },
+	FloatBorder = { fg = colors.fg4, bg = bgs.float },
+	FloatTitle = { fg = colors.yellow, bg = bgs.float },
+	SignColumnSB = { bg = bgs.sidebar },
+	NotifyBackground = { bg = bgs.float },
 	CursorLine = { bg = colors.bg1 },
 	CursorColumn = { link = "CursorLine" },
-	TabLineFill = { fg = colors.bg4, bg = colors.bg1, reverse = config.invert_tabline },
-	TabLineSel = { fg = colors.green, bg = colors.bg1, reverse = config.invert_tabline },
+	TabLineFill = tabline_transparent and { fg = colors.bg4, bg = "NONE" }
+		or { fg = colors.bg4, bg = colors.bg1, reverse = config.invert_tabline },
+	TabLineSel = tabline_transparent and { fg = colors.green, bg = "NONE" }
+		or { fg = colors.green, bg = colors.bg1, reverse = config.invert_tabline },
 	TabLine = { link = "TabLineFill" },
 	MatchParen = { bg = colors.bg3, bold = config.bold },
 	ColorColumn = { bg = colors.bg1 },
@@ -70,11 +83,18 @@ local groups = {
 	CurSearch = { link = "IncSearch" },
 	QuickFixLine = { fg = colors.bg0, bg = colors.yellow, bold = config.bold },
 	Underlined = { fg = colors.blue, underline = config.underline },
-	StatusLine = { fg = colors.bg2, bg = colors.fg1, reverse = config.inverse },
-	StatusLineNC = { fg = colors.bg1, bg = colors.fg4, reverse = config.inverse },
-	WinBar = { fg = colors.fg4, bg = colors.bg0 },
-	WinBarNC = { fg = colors.fg3, bg = colors.bg1 },
-	VertSplit = { fg = colors.bg3, bg = colors.bg0 },
+	-- Keep the native fill after lualine components on the same background as
+	-- lualine's b/c sections. Using a reversed highlight here leaves a visible
+	-- brown seam across the rest of the status line.
+	StatusLine = statusline_transparent and { fg = colors.fg1, bg = "NONE" }
+		or { fg = colors.fg1, bg = colors.bg0 },
+	StatusLineNC = statusline_transparent and { fg = colors.fg4, bg = "NONE" }
+		or { fg = colors.fg4, bg = colors.bg0 },
+	WinBar = statusline_transparent and { fg = colors.fg4, bg = "NONE" }
+		or { fg = colors.fg4, bg = colors.bg0 },
+	WinBarNC = statusline_transparent and { fg = colors.fg3, bg = "NONE" }
+		or { fg = colors.fg3, bg = colors.bg1 },
+	VertSplit = { fg = colors.bg3, bg = bgs.editor },
 	WildMenu = { fg = colors.blue, bg = colors.bg2, bold = config.bold },
 	Directory = { link = "MoonbowBlueBold" },
 	Title = { link = "MoonbowGreenBold" },
@@ -84,9 +104,9 @@ local groups = {
 	Question = { link = "MoonbowOrangeBold" },
 	WarningMsg = { link = "MoonbowRedBold" },
 	LineNr = { fg = colors.bg4 },
-	SignColumn = config.transparent_mode and { bg = nil } or { bg = colors.bg1 },
+	SignColumn = { bg = bgs.gutter },
 	Folded = { fg = colors.gray, bg = colors.bg1, italic = config.italic },
-	FoldColumn = { fg = colors.gray, bg = colors.bg1 },
+	FoldColumn = { fg = colors.gray, bg = bgs.gutter },
 	Cursor = { reverse = config.inverse },
 	vCursor = { link = "Cursor" },
 	iCursor = { link = "Cursor" },
@@ -120,7 +140,7 @@ local groups = {
 	StorageClass = { link = "MoonbowOrange" },
 	Structure = { link = "MoonbowAqua" },
 	Typedef = { link = "MoonbowYellow" },
-	Pmenu = { fg = colors.fg, bg = colors.bg },
+	Pmenu = { fg = colors.fg, bg = bgs.popup },
 	PmenuSel = { fg = colors.bg2, bg = colors.blue, bold = config.bold },
 	PmenuSbar = { bg = colors.bg2 },
 	PmenuThumb = { bg = colors.bg4 },
@@ -244,6 +264,9 @@ local groups = {
 	GitSignsChange = { link = "MoonbowAquaSign" },
 	GitSignsDelete = { link = "MoonbowRedSign" },
 	-- nvim-tree
+	NvimTreeNormal = { fg = colors.fg1, bg = bgs.sidebar },
+	NvimTreeNormalNC = { fg = colors.fg1, bg = bgs.sidebar },
+	NvimTreeWinSeparator = { fg = colors.bg3, bg = bgs.sidebar },
 	NvimTreeSymlink = { fg = colors.neutral_aqua },
 	NvimTreeRootFolder = { fg = colors.neutral_purple, bold = true },
 	NvimTreeFolderIcon = { fg = colors.neutral_blue, bold = true },
@@ -260,6 +283,10 @@ local groups = {
 	NvimTreeGitNew = { fg = colors.neutral_yellow },
 	NvimTreeGitDeleted = { fg = colors.neutral_red },
 	NvimTreeWindowPicker = { bg = colors.faded_aqua },
+	-- neo-tree
+	NeoTreeNormal = { fg = colors.fg1, bg = bgs.sidebar },
+	NeoTreeNormalNC = { fg = colors.fg1, bg = bgs.sidebar },
+	NeoTreeWinSeparator = { fg = colors.bg3, bg = bgs.sidebar },
 	-- termdebug
 	debugPC = { bg = colors.faded_blue },
 	debugBreakpoint = { link = "MoonbowRedSign" },
@@ -322,17 +349,17 @@ local groups = {
 	CocInfoHighlight = { link = "MoonbowBlueUnderline" },
 	CocHintHighlight = { link = "MoonbowAquaUnderline" },
 	-- telescope.nvim
-	TelescopeNormal = { link = "MoonbowFg1" },
+	TelescopeNormal = { fg = colors.fg1, bg = bgs.float },
 	TelescopeSelection = { link = "MoonbowOrangeBold" },
 	TelescopeSelectionCaret = { link = "MoonbowRed" },
 	TelescopeMultiSelection = { link = "MoonbowGray" },
-	TelescopeBorder = { link = "TelescopeNormal" },
-	TelescopePromptBorder = { link = "TelescopeNormal" },
-	TelescopeResultsBorder = { link = "TelescopeNormal" },
-	TelescopePreviewBorder = { link = "TelescopeNormal" },
+	TelescopeBorder = { fg = colors.fg4, bg = bgs.float },
+	TelescopePromptBorder = { fg = colors.fg4, bg = bgs.float },
+	TelescopeResultsBorder = { fg = colors.fg4, bg = bgs.float },
+	TelescopePreviewBorder = { fg = colors.fg4, bg = bgs.float },
 	TelescopeMatching = { link = "MoonbowBlue" },
 	TelescopePromptPrefix = { link = "MoonbowRed" },
-	TelescopePrompt = { link = "TelescopeNormal" },
+	TelescopePrompt = { fg = colors.fg1, bg = bgs.float },
 	-- nvim-cmp
 	CmpItemAbbr = { link = "MoonbowFg0" },
 	CmpItemAbbrDeprecated = { link = "MoonbowFg1" },
@@ -786,16 +813,16 @@ local groups = {
 	StatusCursor = { fg = colors.accent, bg = colors.bg },
 
 	-- Session
-	SessionName = { fg = colors.string, bg = colors.bg },
+	SessionName = { fg = colors.string, bg = bgs.float },
 
 	-- Whichkey
-	WhichKeyFloat = { fg = colors.fg, bg = colors.bg },
+	WhichKeyFloat = { fg = colors.fg, bg = bgs.float },
 
 	-- Lazy
-	LazyNormal = { fg = colors.fg, bg = colors.bg },
+	LazyNormal = { fg = colors.fg, bg = bgs.float },
 
 	-- nvim 0.10 overrides
-	WinSeparator = { fg = colors.bg3, bg = colors.bg0 },
+	WinSeparator = { fg = colors.bg3, bg = bgs.editor },
 
 }
 
